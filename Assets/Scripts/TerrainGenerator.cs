@@ -34,7 +34,7 @@ public class TerrainGenerator : MonoBehaviour
                 for(int y = 0; y < TerrainChunk.chunkHeight; y++)
                 {
                     if(Mathf.PerlinNoise((xPos + x-1) * .1f, (zPos + z-1) * .1f) * 10 + y < TerrainChunk.chunkHeight * .5f)
-                        chunk.blocks[x, y, z] = 1;
+                        chunk.blocks[x, y, z] = BlockType.Grass;
                 }
 
         chunk.BuildMesh();
