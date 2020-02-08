@@ -45,7 +45,7 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(1, 1, 0));
                             numFaces++;
 
-                            //uvs.AddRange(Block.blocks[blocks[x, y, z]].topPos.GetUVs());
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].topPos.GetUVs());
                         }
 
                         //bottom
@@ -56,6 +56,8 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(1, 0, 1));
                             verts.Add(blockPos + new Vector3(0, 0, 1));
                             numFaces++;
+
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].bottomPos.GetUVs());
                         }
 
                         //front
@@ -66,6 +68,8 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(1, 1, 0));
                             verts.Add(blockPos + new Vector3(1, 0, 0));
                             numFaces++;
+
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].sidePos.GetUVs());
                         }
 
                         //right
@@ -76,6 +80,8 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(1, 1, 1));
                             verts.Add(blockPos + new Vector3(1, 0, 1));
                             numFaces++;
+
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].sidePos.GetUVs());
                         }
 
                         //back
@@ -86,6 +92,8 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(0, 1, 1));
                             verts.Add(blockPos + new Vector3(0, 0, 1));
                             numFaces++;
+
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].sidePos.GetUVs());
                         }
 
                         //left
@@ -96,6 +104,8 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(0, 1, 0));
                             verts.Add(blockPos + new Vector3(0, 0, 0));
                             numFaces++;
+
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].sidePos.GetUVs());
                         }
 
 
@@ -103,14 +113,11 @@ public class TerrainChunk : MonoBehaviour
                         for(int i = 0; i < numFaces; i++)
                         {
                             tris.AddRange(new int[] { tl+i*4, tl + i * 4 + 1, tl + i * 4 + 2, tl + i * 4, tl + i * 4 + 2, tl + i * 4 + 3 });
-                            uvs.AddRange(Block.blocks[BlockType.Grass].topPos.GetUVs());
+                            //uvs.AddRange(Block.blocks[BlockType.Grass].topPos.GetUVs());
 
                         }
                     }
                 }
-
-        print(verts);
-        print(tris);
 
         mesh.vertices = verts.ToArray();
         mesh.triangles = tris.ToArray();

@@ -8,7 +8,7 @@ public class TerrainGenerator : MonoBehaviour
 
     public Transform player;
 
-    Dictionary<ChunkPos, TerrainChunk> chunks = new Dictionary<ChunkPos, TerrainChunk>();
+    public static Dictionary<ChunkPos, TerrainChunk> chunks = new Dictionary<ChunkPos, TerrainChunk>();
 
     // Start is called before the first frame update
     void Start()
