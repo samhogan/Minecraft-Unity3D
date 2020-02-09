@@ -104,7 +104,7 @@ public class TerrainGenerator : MonoBehaviour
             blockType = BlockType.Dirt;
 
             //just on the surface, use a grass type
-            if(y > baseLandHeight - 1)
+            if(y > baseLandHeight - 1 && y > WaterChunk.waterHeight-2)
                 blockType = BlockType.Grass;
 
             if(y <= baseStoneHeight)

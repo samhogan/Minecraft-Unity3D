@@ -6,6 +6,8 @@ public class TerrainModifier : MonoBehaviour
 {
     public LayerMask groundLayer;
 
+    public Inventory inv;
+
     float maxDist = 4;
 
     // Start is called before the first frame update
@@ -47,13 +49,21 @@ public class TerrainModifier : MonoBehaviour
 
                 if(rightClick)//replace block with air
                 {
+                    inv.AddToInventory(tc.blocks[bix, biy, biz]);
                     tc.blocks[bix, biy, biz] = BlockType.Air;
                     tc.BuildMesh();
                 }
                 else if(leftClick)
                 {
-                    tc.blocks[bix, biy, biz] = BlockType.Dirt;
-                    tc.BuildMesh();
+                    if(inv.CanPlaceCur())
+                    {
+                        tc.blocks[bix, biy, biz] = inv.GetCurBlock();
+
+                        tc.BuildMesh();
+
+                        inv.ReduceCur();
+                    }
+                    
                 }
             }
         }

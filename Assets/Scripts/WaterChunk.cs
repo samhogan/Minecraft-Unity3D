@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaterChunk : MonoBehaviour
 {
     //chunk size
-    int waterHeight = 30;
+    public const int waterHeight = 28;
 
     //0 = air, 1 = land
     public int[,] locs = new int[16,16];
