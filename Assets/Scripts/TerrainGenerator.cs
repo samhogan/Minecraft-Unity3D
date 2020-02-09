@@ -12,7 +12,7 @@ public class TerrainGenerator : MonoBehaviour
 
     FastNoise noise = new FastNoise();
 
-    int chunkDist = 3;
+    int chunkDist = 5;
 
     List<TerrainChunk> pooledChunks = new List<TerrainChunk>();
 
@@ -76,6 +76,14 @@ public class TerrainGenerator : MonoBehaviour
     //get the block type at a specific coordinate
     BlockType GetBlockType(int x, int y, int z)
     {
+        /*if(y < 33)
+            return BlockType.Dirt;
+        else
+            return BlockType.Air;*/
+
+        
+
+
         //print(noise.GetSimplex(x, z));
         float simplex1 = noise.GetSimplex(x*.8f, z*.8f)*10;
         float simplex2 = noise.GetSimplex(x * 3f, z * 3f) * 10*(noise.GetSimplex(x*.3f, z*.3f)+.5f);
@@ -96,6 +104,12 @@ public class TerrainGenerator : MonoBehaviour
         float stoneHeightMap = simplexStone1 + simplexStone2;
         float baseStoneHeight = TerrainChunk.chunkHeight * .25f + stoneHeightMap;
 
+
+        //float cliffThing = noise.GetSimplex(x * 1f, z * 1f, y) * 10;
+        //float cliffThingMask = noise.GetSimplex(x * .4f, z * .4f) + .3f;
+
+
+
         BlockType blockType = BlockType.Air;
 
         //under the surface, dirt block
@@ -114,7 +128,7 @@ public class TerrainGenerator : MonoBehaviour
 
         if(caveNoise1 > Mathf.Max(caveMask, .2f))
             blockType = BlockType.Air;
-       
+
 
         //if(Mathf.PerlinNoise(x * .1f, z * .1f) * 10 + y < TerrainChunk.chunkHeight * .5f)
         //    return BlockType.Grass;
