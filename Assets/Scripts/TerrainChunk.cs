@@ -9,13 +9,13 @@ public class TerrainChunk : MonoBehaviour
     public const int chunkHeight = 64;
 
     //0 = air, 1 = land
-    public BlockType[,,] blocks = new BlockType[chunkWidth+2, chunkHeight, chunkWidth+2];
+    public BlockType[,,] blocks = new BlockType[chunkWidth + 2, chunkHeight, chunkWidth + 2];
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
 
@@ -28,13 +28,13 @@ public class TerrainChunk : MonoBehaviour
         List<int> tris = new List<int>();
         List<Vector2> uvs = new List<Vector2>();
 
-        for(int x = 1; x < chunkWidth+1; x++)
-            for(int z = 1; z < chunkWidth+1; z++)
+        for(int x = 1; x < chunkWidth + 1; x++)
+            for(int z = 1; z < chunkWidth + 1; z++)
                 for(int y = 0; y < chunkHeight; y++)
                 {
                     if(blocks[x, y, z] != BlockType.Air)
                     {
-                        Vector3 blockPos = new Vector3(x-1, y, z-1);
+                        Vector3 blockPos = new Vector3(x - 1, y, z - 1);
                         int numFaces = 0;
                         //no land above, build top face
                         if(y < chunkHeight - 1 && blocks[x, y + 1, z] == BlockType.Air)
@@ -61,7 +61,7 @@ public class TerrainChunk : MonoBehaviour
                         }
 
                         //front
-                        if(blocks[x, y, z-1] == BlockType.Air)
+                        if(blocks[x, y, z - 1] == BlockType.Air)
                         {
                             verts.Add(blockPos + new Vector3(0, 0, 0));
                             verts.Add(blockPos + new Vector3(0, 1, 0));
@@ -73,7 +73,7 @@ public class TerrainChunk : MonoBehaviour
                         }
 
                         //right
-                        if(blocks[x+1, y, z] == BlockType.Air)
+                        if(blocks[x + 1, y, z] == BlockType.Air)
                         {
                             verts.Add(blockPos + new Vector3(1, 0, 0));
                             verts.Add(blockPos + new Vector3(1, 1, 0));
@@ -109,10 +109,10 @@ public class TerrainChunk : MonoBehaviour
                         }
 
 
-                        int tl = verts.Count - 4*numFaces;
+                        int tl = verts.Count - 4 * numFaces;
                         for(int i = 0; i < numFaces; i++)
                         {
-                            tris.AddRange(new int[] { tl+i*4, tl + i * 4 + 1, tl + i * 4 + 2, tl + i * 4, tl + i * 4 + 2, tl + i * 4 + 3 });
+                            tris.AddRange(new int[] { tl + i * 4, tl + i * 4 + 1, tl + i * 4 + 2, tl + i * 4, tl + i * 4 + 2, tl + i * 4 + 3 });
                             //uvs.AddRange(Block.blocks[BlockType.Grass].topPos.GetUVs());
 
                         }
