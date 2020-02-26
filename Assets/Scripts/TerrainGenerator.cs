@@ -129,6 +129,11 @@ public class TerrainGenerator : MonoBehaviour
         if(caveNoise1 > Mathf.Max(caveMask, .2f))
             blockType = BlockType.Air;
 
+        /*if(blockType != BlockType.Air)
+            blockType = BlockType.Stone;*/
+
+        //if(blockType == BlockType.Air && noise.GetSimplex(x * 4f, y * 4f, z*4f) < 0)
+          //  blockType = BlockType.Dirt;
 
         //if(Mathf.PerlinNoise(x * .1f, z * .1f) * 10 + y < TerrainChunk.chunkHeight * .5f)
         //    return BlockType.Grass;
@@ -232,7 +237,8 @@ public class TerrainGenerator : MonoBehaviour
 
                 for(int j = 0; j < treeHeight; j++)
                 {
-                    blocks[xPos, y+j, zPos] = BlockType.Trunk;
+                    if(y+j < 64)
+                        blocks[xPos, y+j, zPos] = BlockType.Trunk;
                 }
 
                 int leavesWidth = 1 + (int)(rand.NextDouble() * 6);
