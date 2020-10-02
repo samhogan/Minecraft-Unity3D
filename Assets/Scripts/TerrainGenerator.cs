@@ -66,9 +66,6 @@ public class TerrainGenerator : MonoBehaviour
         WaterChunk wat = chunk.transform.GetComponentInChildren<WaterChunk>();
         wat.SetLocs(chunk.blocks);
         wat.BuildMesh();
-        
-
-
         chunks.Add(new ChunkPos(xPos, zPos), chunk);
     }
 
@@ -76,14 +73,6 @@ public class TerrainGenerator : MonoBehaviour
     //get the block type at a specific coordinate
     BlockType GetBlockType(int x, int y, int z)
     {
-        /*if(y < 33)
-            return BlockType.Dirt;
-        else
-            return BlockType.Air;*/
-
-        
-
-
         //print(noise.GetSimplex(x, z));
         float simplex1 = noise.GetSimplex(x*.8f, z*.8f)*10;
         float simplex2 = noise.GetSimplex(x * 3f, z * 3f) * 10*(noise.GetSimplex(x*.3f, z*.3f)+.5f);
@@ -168,28 +157,30 @@ public class TerrainGenerator : MonoBehaviour
                         else
                             toGenerate.Add(cp);
                     }
-                     
-
                 }
 
             //remove chunks that are too far away
             List<ChunkPos> toDestroy = new List<ChunkPos>();
+            
+            //Below statement was being evaluated every-time in the loop so I isolated this so it can be bit optimised ;) 
+            float chunkDistEvaluated = 16 * (chunkDist + 3);
+            
             //unload chunks
             foreach(KeyValuePair<ChunkPos, TerrainChunk> c in chunks)
             {
                 ChunkPos cp = c.Key;
-                if(Mathf.Abs(curChunkPosX - cp.x) > 16 * (chunkDist + 3) || 
-                    Mathf.Abs(curChunkPosZ - cp.z) > 16 * (chunkDist + 3))
+                if(Mathf.Abs(curChunkPosX - cp.x) > chunkDistEvaluated || Mathf.Abs(curChunkPosZ - cp.z) > chunkDistEvaluated)
                 {
                     toDestroy.Add(c.Key);
                 }
             }
 
+            float chunkDist1 = 16 * (chunkDist + 1); 
             //remove any up for generation
             foreach(ChunkPos cp in toGenerate)
             {
-                if(Mathf.Abs(curChunkPosX - cp.x) > 16 * (chunkDist + 1) ||
-                    Mathf.Abs(curChunkPosZ - cp.z) > 16 * (chunkDist + 1))
+                if(Mathf.Abs(curChunkPosX - cp.x) > chunkDist1 ||
+                    Mathf.Abs(curChunkPosZ - cp.z) > chunkDist1)
                     toGenerate.Remove(cp);
             }
 
@@ -202,10 +193,6 @@ public class TerrainGenerator : MonoBehaviour
 
             StartCoroutine(DelayBuildChunks());
         }
-
-
-
-
     }
 
 
@@ -265,12 +252,13 @@ public class TerrainGenerator : MonoBehaviour
 
     IEnumerator DelayBuildChunks()
     {
+        var wait = new WaitForSeconds(.2f);
         while(toGenerate.Count > 0)
         {
             BuildChunk(toGenerate[0].x, toGenerate[0].z);
             toGenerate.RemoveAt(0);
 
-            yield return new WaitForSeconds(.2f);
+            yield return wait;
 
         }
 
