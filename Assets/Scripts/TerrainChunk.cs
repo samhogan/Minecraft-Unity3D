@@ -11,15 +11,6 @@ public class TerrainChunk : MonoBehaviour
     //0 = air, 1 = land
     public BlockType[,,] blocks = new BlockType[chunkWidth + 2, chunkHeight, chunkWidth + 2];
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-
-
     public void BuildMesh()
     {
         Mesh mesh = new Mesh();
@@ -112,9 +103,10 @@ public class TerrainChunk : MonoBehaviour
                         int tl = verts.Count - 4 * numFaces;
                         for(int i = 0; i < numFaces; i++)
                         {
-                            tris.AddRange(new int[] { tl + i * 4, tl + i * 4 + 1, tl + i * 4 + 2, tl + i * 4, tl + i * 4 + 2, tl + i * 4 + 3 });
+                            int tli4 = tl + i * 4;
+                            tris.AddRange(new int[] { tli4, tli4 + 1, tli4 + 2, tli4, tli4 + 2, tli4 + 3 });
+                            //tris.AddRange(new int[] { tl + i * 4, tl + i * 4 + 1, tl + i * 4 + 2, tl + i * 4, tl + i * 4 + 2, tl + i * 4 + 3 });
                             //uvs.AddRange(Block.blocks[BlockType.Grass].topPos.GetUVs());
-
                         }
                     }
                 }
